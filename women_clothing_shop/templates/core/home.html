@@ -1,0 +1,125 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}خانه | فروشگاه پوشاک زنانه{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hero{
+    background-image: url("{% static 'img/home.png' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
+
+  .hero .container,
+  .hero .hero-content{
+    position: relative;
+    z-index: 1;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>جدیدترین پوشاک زنانه</h1>
+            <p>زیباترین استایل‌ها را با ما تجربه کنید</p>
+            <a href="{% url 'clothes-list' %}" class="btn">مشاهده محصولات</a>
+        </div>
+    </div>
+</section>
+
+<section class="newest-products">
+    <div class="container">
+        <h2>جدیدترین محصولات</h2>
+
+        <div class="products-grid">
+            {% for product in newest_clothes %}
+                <div class="product-card">
+                    <a href="{% url 'clothe-detail' product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.title }}">
+                    </a>
+
+                    <h3>
+                        <a href="{% url 'clothe-detail' product.id %}">
+                            {{ product.title }}
+                        </a>
+                    </h3>
+
+                    <p class="price">
+                        {% if product.discount_percentage %}
+                            <span class="final-price">
+                                {{ product.final_price|floatformat:0|intcomma|to_persian_digits }} تومان
+                            </span>
+                            <span class="old-price">
+                                {{ product.price|floatformat:0|intcomma|to_persian_digits }}
+                            </span>
+                        {% else %}
+                            {{ product.price|floatformat:0|intcomma|to_persian_digits }} تومان
+                        {% endif %}
+                    </p>
+                </div>
+            {% empty %}
+                <p>محصولی برای نمایش وجود ندارد.</p>
+            {% endfor %}
+        </div>
+
+        
+    </div>
+
+    <div class="container">
+        <h2>بیشترین تخفیف</h2>
+
+        <div class="products-grid">
+            {% for product in highest_discounts %}
+                <div class="product-card">
+                    <a href="{% url 'clothe-detail' product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.title }}">
+                    </a>
+
+                    <h3>
+                        <a href="{% url 'clothe-detail' product.id %}">
+                            {{ product.title }}
+                        </a>
+                    </h3>
+
+                    <p class="price">
+                        {% if product.discount_percentage %}
+                            <span class="final-price">
+                                {{ product.final_price|floatformat:0|intcomma|to_persian_digits }} تومان
+                            </span>
+                            <span class="old-price">
+                                {{ product.price|floatformat:0|intcomma|to_persian_digits }}
+                            </span>
+                        {% else %}
+                            {{ product.price|floatformat:0|intcomma|to_persian_digits }} تومان
+                        {% endif %}
+                    </p>
+                </div>
+            {% empty %}
+                <p>محصولی برای نمایش وجود ندارد.</p>
+            {% endfor %}
+        </div>
+
+        
+
+        <div class="section-action">
+            <a href="{% url 'clothes-list' %}" class="btn">همه محصولات</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

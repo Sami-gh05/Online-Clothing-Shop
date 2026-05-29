@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}سفارش‌های من{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="account-page">
+    {% include 'accounts/account_sidebar.html' %}
+
+    <div class="account-content">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">سفارش‌های من</h1>
+          <p class="page-subtitle">لیست سفارش‌های ثبت‌شده شما</p>
+        </div>
+      </div>
+
+      {% if orders %}
+        <div class="orders-list">
+          {% for order in orders %}
+            <div class="card order-card">
+              <div class="order-head">
+                <div>
+                  <h3 class="order-title">سفارش شماره {{ order.id|default_if_none:0|to_persian_digits }}</h3>
+                  <p class="order-subtitle">{{ order.created_at }}</p>
+                </div>
+                <span class="order-status">{{ order.get_status_display }}</span>
+              </div>
+
+              <div class="order-items">
+                <div class="order-items-title">محصولات سفارش</div>
+                {% for item in order.items.all %}
+                  <div class="order-item-row">
+                    <div class="order-item-image">
+                      {% if item.clothe_variant and item.clothe_variant.clothe %}
+                        <img src="{{ item.clothe_variant.clothe.image_url }}" alt="{{ item.clothe_variant.clothe.title }}">
+                      {% else %}
+                        <img src="/static/img/default.png" alt="محصول حذف‌شده">
+                      {% endif %}
+                    </div>
+                    <div class="order-item-details">
+                      <p class="order-item-title">
+                        {% if item.clothe_variant and item.clothe_variant.clothe %}
+                          {{ item.clothe_variant.clothe.title }}
+                        {% else %}
+                          محصول حذف‌شده
+                        {% endif %}
+                      </p>
+                      {% if item.clothe_variant %}
+                        <p class="order-item-variant">
+                          {{ item.clothe_variant.color.name }} | {{ item.clothe_variant.get_size_display }}
+                        </p>
+                      {% endif %}
+                    </div>
+                    <div class="order-item-quantity">x{{ item.quantity|to_persian_digits }}</div>
+                    <div class="order-item-total">
+                      {{ item.total_price|floatformat:0|intcomma|to_persian_digits }} تومان
+                    </div>
+                  </div>
+                {% empty %}
+                  <div class="empty-order-items">این سفارش هنوز محصولی ندارد.</div>
+                {% endfor %}
+              </div>
+
+              <div class="order-meta order-summary-row">
+                <div class="meta-row">
+                  <span class="meta-label">تعداد آیتم‌ها:</span>
+                  <span class="meta-value">{{ order.items.count|to_persian_digits }}</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">مبلغ کل:</span>
+                  <span class="meta-value">
+                    {{ order.total_price|default_if_none:0|floatformat:0|intcomma|to_persian_digits }}
+                    <span class="toman">تومان</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">شما هنوز سفارشی ثبت نکرده‌اید.</div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}

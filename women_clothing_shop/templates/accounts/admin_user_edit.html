@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %}ویرایش کاربر{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="account-page">
+    {% include 'accounts/account_sidebar.html' %}
+
+    <div class="account-content">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">ویرایش کاربر</h1>
+          <p class="page-subtitle">اطلاعات کاربر را ویرایش کنید و ذخیره بزنید</p>
+        </div>
+      </div>
+
+      <div class="panel form-card">
+        <form method="post" class="styled-form">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">ذخیره</button>
+            <a href="{% url 'admin-user-list' %}" class="btn btn-ghost">بازگشت</a>
+        </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

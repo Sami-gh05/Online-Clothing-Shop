@@ -1,0 +1,6 @@
+# requirements.in
+
+django
+black
+flake8
+pillow

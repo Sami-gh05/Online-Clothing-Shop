@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}ویرایش حساب کاربری{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="account-page">
+    {% include 'accounts/account_sidebar.html' %}
+
+    <div class="account-content">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">ویرایش حساب کاربری</h1>
+          <p class="page-subtitle">اطلاعات حساب خود را بروزرسانی کنید</p>
+        </div>
+      </div>
+
+      <div class="panel form-card">
+        <form method="post" class="styled-form">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}{{ clothe.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  {# ===== top: two columns ===== #}
+  <div class="product-detail-page"
+       style="display:grid; grid-template-columns: 1fr 1.2fr; gap:24px; align-items:start;">
+
+    {# LEFT: main image #}
+    <div class="product-gallery">
+      {% if clothe.image %}
+        <img src="{{ clothe.image.url }}" alt="{{ clothe.title }}" class="main-image">
+      {% elif clothe.image_url %}
+        <img src="{{ clothe.image_url }}" alt="{{ clothe.title }}" class="main-image">
+      {% else %}
+        <div class="empty-state">تصویری برای این محصول ثبت نشده است.</div>
+      {% endif %}
+    </div>
+
+    {# RIGHT: info + variants #}
+    <div class="product-info">
+      <h1 class="page-title">{{ clothe.title }}</h1>
+      <p>{{ clothe.description }}</p>
+      <p>دسته‌بندی: {{ clothe.category.name }}</p>
+
+      <div class="price" style="margin:12px 0;">
+        {% if clothe.discount_percentage %}
+          <span class="final-price">
+            {{ clothe.final_price|floatformat:0|intcomma|to_persian_digits }} تومان
+          </span>
+          <span class="old-price" style="margin-right:10px;">
+            {{ clothe.price|floatformat:0|intcomma|to_persian_digits }}
+          </span>
+        {% else %}
+          {{ clothe.price|floatformat:0|intcomma|to_persian_digits }} تومان
+        {% endif %}
+      </div>
+
+      <h3 style="margin:18px 0 10px;">تنوع‌ها</h3>
+
+      {% if clothe.variants.all %}
+        {# variants grid instead of stacking cards #}
+        <div class="variants-list"
+             style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:12px;">
+
+          {% for variant in clothe.variants.all %}
+            <div class="variant-card card" style="padding:12px;">
+              <p style="margin:0 0 6px; display:flex; align-items:center; gap:8px;">رنگ:
+                {% if variant.color.color_code %}
+                  <span style="display:inline-block;width:16px;height:16px;border-radius:50%;border:1px solid #ccc;background:{{ variant.color.color_code }};"></span>
+                {% endif %}
+                <strong>{{ variant.color.name }}</strong>
+              </p>
+              <p style="margin:0 0 6px;">سایز: <strong>{{ variant.get_size_display }}</strong></p>
+              <p style="margin:0 0 10px;">موجودی: <strong>{{ variant.stock|to_persian_digits }}</strong></p>
+
+              {% if variant.stock > 0 %}
+                <form action="{% url 'cart-add' variant.id %}" method="post"
+                      style="display:flex; gap:10px; align-items:center;">
+                  {% csrf_token %}
+                  <input type="number" name="quantity" min="1" max="{{ variant.stock }}" value="1"
+                         class="input" style="width:90px;">
+                  <button type="submit" class="btn">افزودن</button>
+                </form>
+              {% else %}
+                <p class="out-of-stock" style="margin:0;">ناموجود</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>تنوعی برای این محصول ثبت نشده است.</p>
+      {% endif %}
+
+    </div>
+  </div>
+
+  {# ===== bottom: thumbs gallery aligned ===== #}
+  {% if clothe.images.all %}
+    <div class="gallery-thumbs" style="margin-top:22px;">
+      <div class="card" style="padding:12px;">
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:12px;">
+          {% for image in clothe.images.all %}
+            <div style="border:1px solid #eee; border-radius:12px; padding:8px; background:#fff;">
+              <img src="{{ image.image.url }}" alt="{{ clothe.title }}"
+                   style="width:100%; height:150px; object-fit:cover; border-radius:10px; display:block;">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

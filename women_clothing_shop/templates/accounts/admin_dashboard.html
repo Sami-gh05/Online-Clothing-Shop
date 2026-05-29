@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load persian_filters %}
+
+{% block title %}داشبورد مدیریت{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-page">
+        {% include 'accounts/account_sidebar.html' %}
+
+        <div class="account-content">
+            <h1>داشبورد مدیریت</h1>
+
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>تعداد محصولات</h3>
+                    <p>{{ product_count|to_persian_digits }}</p>
+                </div>
+
+                <div class="card">
+                    <h3>تعداد سفارش‌ها</h3>
+                    <p>{{ order_count|to_persian_digits }}</p>
+                </div>
+
+                <div class="card">
+                    <h3>سفارش‌های در حال پردازش</h3>
+                    <p>{{ pending_order_count|to_persian_digits }}</p>
+                </div>
+
+                <div class="card">
+                    <h3>تعداد کاربران</h3>
+                    <p>{{ user_count|to_persian_digits }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

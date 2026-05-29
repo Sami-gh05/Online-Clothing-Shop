@@ -1,0 +1,259 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}
+  {% if clothe %}ویرایش: {{ clothe.title }}{% else %}افزودن محصول{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+    <h1 style="margin: 0;">
+      {% if clothe %}ویرایش محصول{% else %}افزودن محصول{% endif %}
+    </h1>
+
+    {% if clothe %}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <form action="{% url 'clothe-delete' clothe.id %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger"
+                  onclick="return confirm('آیا از حذف این محصول مطمئن هستید؟');">
+            حذف محصول
+          </button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+  <hr>
+
+  {# Messages (if not rendered in base template, place here) #}
+  {% if messages %}
+    <div style="margin: 12px 0;">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# General form errors #}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <section class="card" style="padding:16px; margin-bottom:16px;">
+      <h3 style="margin-top:0;">اطلاعات اصلی</h3>
+
+      <div class="form-grid" style="display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px;">
+        <div>
+          <label for="{{ form.title.id_for_label }}">عنوان</label>
+          {{ form.title }}
+          {% if form.title.errors %}<div class="text-danger">{{ form.title.errors }}</div>{% endif %}
+        </div>
+
+        <div>
+          <label for="{{ form.category.id_for_label }}">دسته‌بندی</label>
+          {{ form.category }}
+          {% if request.user.is_staff %}
+            <div style="margin-top:6px;">
+              <a class="btn btn-secondary"
+                href="{% url 'quick-add-category' %}?next={{ request.get_full_path|urlencode }}">
+                + افزودن دسته‌بندی جدید
+              </a>
+            </div>
+          {% endif %}
+
+          {% if form.category.errors %}<div class="text-danger">{{ form.category.errors }}</div>{% endif %}
+        </div>
+
+        <div>
+          <label for="{{ form.price.id_for_label }}">قیمت</label>
+          {{ form.price }}
+          {% if form.price.errors %}<div class="text-danger">{{ form.price.errors }}</div>{% endif %}
+        </div>
+
+        <div>
+          <label for="{{ form.discount_percentage.id_for_label }}">درصد تخفیف</label>
+          {{ form.discount_percentage }}
+          {% if form.discount_percentage.errors %}<div class="text-danger">{{ form.discount_percentage.errors }}</div>{% endif %}
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <label for="{{ form.description.id_for_label }}">توضیحات</label>
+          {{ form.description }}
+          {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <label for="{{ form.image.id_for_label }}">تصویر اصلی</label>
+
+          {% if clothe and clothe.image %}
+            <div style="margin: 8px 0;">
+              <div style="font-size: 12px; opacity:.8;">تصویر فعلی:</div>
+              <img src="{{ clothe.image.url }}" alt="{{ clothe.title }}"
+                   style="max-width:220px; height:auto; border:1px solid #ddd; border-radius:6px;">
+            </div>
+          {% elif clothe and clothe.image_url %}
+            {# Using image_url property if available #}
+            <div style="margin: 8px 0;">
+              <div style="font-size: 12px; opacity:.8;">Current Image:</div>
+              <img src="{{ clothe.image_url }}" alt="{{ clothe.title }}"
+                   style="max-width:220px; height:auto; border:1px solid #ddd; border-radius:6px;">
+            </div>
+          {% endif %}
+
+          {{ form.image }}
+          {% if form.image.errors %}<div class="text-danger">{{ form.image.errors }}</div>{% endif %}
+        </div>
+      </div>
+    </section>
+
+
+    <section class="card" style="padding:16px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <h3 style="margin:0;">تنوع‌ها (Variants)</h3>
+        </div>
+
+      {{ variant_formset.management_form }}
+      {% if variant_formset.non_form_errors %}
+        <div class="alert alert-danger" style="margin-top:10px;">
+          {{ variant_formset.non_form_errors }}
+        </div>
+      {% endif %}
+
+      <div id="variants">
+        {% for vform in variant_formset %}
+          <div class="variant-row" style="border:1px solid #eee; padding:12px; border-radius:8px; margin-top:10px;">
+            {% if vform.non_field_errors %}
+              <div class="alert alert-danger">{{ vform.non_field_errors }}</div>
+            {% endif %}
+
+            {# hidden id field for existing objects #}
+            {{ vform.id }}
+
+            <div style="display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:10px;">
+              <div>
+                <label>رنگ
+                  {% if vform.instance and vform.instance.pk and vform.instance.color %}
+                    <span class="color-swatch" style="display:inline-block;width:16px;height:16px;border-radius:50%;border:1px solid #ccc;margin-left:8px;vertical-align:middle;background:{{ vform.instance.color.color_code }};"></span>
+                  {% endif %}
+                </label>
+                {{ vform.color }}
+                {% if request.user.is_staff %}
+                  <div style="margin-top:6px;">
+                    <a class="btn btn-secondary"
+                      href="{% url 'quick-add-color' %}?next={{ request.get_full_path|urlencode }}">
+                      + افزودن رنگ جدید
+                    </a>
+                  </div>
+                {% endif %}
+
+                {% if vform.color.errors %}<div class="text-danger">{{ vform.color.errors }}</div>{% endif %}
+              </div>
+
+              <div>
+                <label>سایز</label>
+                {{ vform.size }}
+                {% if vform.size.errors %}<div class="text-danger">{{ vform.size.errors }}</div>{% endif %}
+              </div>
+
+              <div>
+                <label>موجودی</label>
+                {{ vform.stock }}
+                {% if vform.stock.errors %}<div class="text-danger">{{ vform.stock.errors }}</div>{% endif %}
+              </div>
+
+              {# If variant has separate pricing #}}
+              {% if vform.price %}
+                <div>
+                  <label>قیمت</label>
+                  {{ vform.price }}
+                  {% if vform.price.errors %}<div class="text-danger">{{ vform.price.errors }}</div>{% endif %}
+                </div>
+              {% else %}
+                <div></div>
+              {% endif %}
+            </div>
+
+            {% if vform.DELETE %}
+              <div style="margin-top:10px;">
+                <label style="display:inline-flex; align-items:center; gap:6px;">
+                  {{ vform.DELETE }}
+                  حذف این تنوع
+                </label>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </section>
+
+    <section class="card" style="padding:16px; margin-bottom:16px;">
+      <h3 style="margin-top:0;">گالری تصاویر</h3>
+
+      {{ image_formset.management_form }}
+      {% if image_formset.non_form_errors %}
+        <div class="alert alert-danger" style="margin-top:10px;">
+          {{ image_formset.non_form_errors }}
+        </div>
+      {% endif %}
+
+      <div class="gallery-forms" style="display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px;">
+        {% for iform in image_formset %}
+          <div style="border:1px solid #eee; padding:12px; border-radius:8px;">
+            {% if iform.non_field_errors %}
+              <div class="alert alert-danger">{{ iform.non_field_errors }}</div>
+            {% endif %}
+
+            {{ iform.id }}
+
+            <div>
+              <label>تصویر</label>
+
+              {% if iform.instance and iform.instance.pk and iform.instance.image %}
+                <div style="margin:8px 0;">
+                  <div style="font-size: 12px; opacity:.8;">تصویر فعلی:</div>
+                  <img src="{{ iform.instance.image.url }}" alt=""
+                       style="max-width:220px; height:auto; border:1px solid #ddd; border-radius:6px;">
+                </div>
+              {% endif %}
+
+              {{ iform.image }}
+              {% if iform.image.errors %}<div class="text-danger">{{ iform.image.errors }}</div>{% endif %}
+            </div>
+
+            {% if iform.DELETE %}
+              <div style="margin-top:10px;">
+                <label style="display:inline-flex; align-items:center; gap:6px;">
+                  {{ iform.DELETE }}
+                  حذف این تصویر
+                </label>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
+
+      {% if clothe %}
+        <a class="btn btn-secondary" href="{% url 'clothe-detail' clothe.id %}">انصراف</a>
+      {% else %}
+        <a class="btn btn-secondary" href="{% url 'clothes-list' %}">انصراف</a>
+      {% endif %}
+    </div>
+
+  </form>
+</div>
+{% endblock %}

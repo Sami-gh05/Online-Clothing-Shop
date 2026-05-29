@@ -1,0 +1,17 @@
+<div class="account-sidebar">
+    <ul>
+        {% if not request.user.is_staff %}
+            <li><a href="{% url 'user-dashboard' %}">داشبورد</a></li>
+            <li><a href="{% url 'my-orders' %}">سفارش‌های من</a></li>
+        {% endif%}
+            <li><a href="{% url 'edit-account' %}">ویرایش اطلاعات</a></li>
+            <li><a href="{% url 'change-password' %}">تغییر رمز عبور</a></li>
+        {% if user.is_staff %}
+            <li><a href="{% url 'admin-dashboard' %}">داشبورد مدیریت</a></li>
+            <li><a href="{% url 'clothe-add' %}">افزودن محصول</a></li>
+            <li><a href="{% url 'admin-all-orders' %}">همه سفارش‌ها</a></li>
+            <li><a href="{% url 'admin-user-list' %}">مدیریت کاربران</a></li>
+            <li><a href="{% url 'admin-sales-report' %}">گزارش فروش</a></li>
+        {% endif %}
+    </ul>
+</div>

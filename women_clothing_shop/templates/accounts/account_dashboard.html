@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}داشبورد کاربری{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-page">
+        {% include 'accounts/account_sidebar.html' %}
+
+        <div class="account-content">
+            <h1>داشبورد کاربری</h1>
+            <p>سلام {{ user.username }}، خوش آمدید.</p>
+
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>نام کاربری</h3>
+                    <p>{{ user.username }}</p>
+                </div>
+
+                <div class="card">
+                    <h3>ایمیل</h3>
+                    <p>{{ user.email|default:"ثبت نشده" }}</p>
+                </div>
+
+                <div class="card">
+                    <h3>شماره تلفن</h3>
+                    <p>{{ user.phone_number|default:"-" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

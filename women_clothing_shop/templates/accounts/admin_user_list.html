@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load persian_filters %}
+
+{% block title %}مدیریت کاربران{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="account-page">
+    {% include 'accounts/account_sidebar.html' %}
+
+    <div class="account-content">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">مدیریت کاربران</h1>
+          <p class="page-subtitle">لیست کاربران و امکان ویرایش</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        {% if users %}
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-num">شناسه</th>
+                  <th>نام کاربری</th>
+                  <th>ایمیل</th>
+                  <th>نام</th>
+                  <th>نام خانوادگی</th>
+                  <th class="col-actions">عملیات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user_obj in users %}
+                  <tr>
+                    <td class="col-num">{{ user_obj.id|to_persian_digits }}</td>
+                    <td class="col-title">{{ user_obj.username }}</td>
+                    <td class="col-ltr">{{ user_obj.email }}</td>
+                    <td>{{ user_obj.first_name|default:"—" }}</td>
+                    <td>{{ user_obj.last_name|default:"—" }}</td>
+                    <td class="col-actions">
+                      <a class="link-action" href="{% url 'admin-user-edit' user_obj.id %}">ویرایش</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="empty-state">کاربری وجود ندارد.</div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

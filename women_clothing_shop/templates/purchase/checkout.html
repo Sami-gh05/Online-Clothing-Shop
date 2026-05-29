@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}تسویه حساب{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">تسویه حساب</h1>
+
+    <div class="checkout-wrapper">
+        <div class="checkout-form card"> {# Added card class #}
+            <h2>اطلاعات ارسال</h2>
+            <form method="post" class="styled-form"> {# Added styled-form for potential styling #}
+                {% csrf_token %}
+                <div class="form-fields"> {# Wrapper for form fields #}
+                    {{ form.as_p }}
+                </div>
+                <div class="form-actions"> {# Use form-actions for button alignment #}
+                    <button type="submit" class="btn btn-primary">ثبت سفارش</button>
+                    {# Optionally add a back button #}
+                    <a href="{% url 'cart-detail' %}" class="btn btn-ghost">بازگشت به سبد خرید</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="checkout-summary card"> {# Added card class #}
+            <h2>خلاصه سفارش</h2>
+
+            {% for item in cart %}
+                <div class="checkout-item">
+                    <p class="item-title">
+                        {{ item.variant.clothe.title }}
+                        - {{ item.variant.color.name }}
+                        - {{ item.variant.get_size_display }}
+                    </p>
+                    <p class="item-quantity-price">
+                        {{ item.quantity|to_persian_digits }} ×
+                        {{ item.price|floatformat:0|intcomma|to_persian_digits }}
+                        =
+                        {{ item.total_price|floatformat:0|intcomma|to_persian_digits }} تومان
+                    </p>
+                </div>
+            {% endfor %}
+
+            <hr>
+            <h3 class="total-price">
+                جمع کل:
+                {{ cart.get_total_price|floatformat:0|intcomma|to_persian_digits }} تومان
+            </h3>
+            {# The checkout button is now inside the form-actions #}
+        </div>
+    </div>
+</div>
+{% endblock %}

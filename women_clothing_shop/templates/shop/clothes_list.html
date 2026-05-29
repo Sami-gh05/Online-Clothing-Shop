@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}محصولات{% endblock %}
+
+{% block content %}
+<div class="container">
+    {# Using page-title for consistency with other pages #}
+    <h1 class="page-title">محصولات</h1>
+
+    <div class="products-page">
+        {# Filters Sidebar using .filters-sidebar and .filter-box #}
+        <aside class="filters-sidebar">
+            <form method="get" class="filter-box"> {# Applied filter-box to the form itself for structure #}
+                <div class="filter-group"> {# Grouping related filters #}
+                    <label for="q">جستجو</label>
+                    <input type="text" name="q" id="q" value="{{ request.GET.q }}" placeholder="جستجوی نام محصول...">
+                </div>
+                <div class="filter-group">
+                    <label for="category">دسته‌بندی</label>
+                    <select name="category" id="category">
+                        <option value="">همه دسته‌بندی‌ها</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}"
+                                {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="filter-group">
+                    <label for="sort">مرتب‌سازی</label>
+                    <select name="sort" id="sort">
+                        <option value="">پیش‌فرض</option>
+                        <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>جدیدترین</option>
+                        <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>ارزان‌ترین</option>
+                        <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>گران‌ترین</option>
+                    </select>
+                </div>
+
+                {# Using the general .btn style for the filter button #}
+                <button type="submit" class="btn btn-secondary btn-block">اعمال فیلتر</button>
+            </form>
+        </aside>
+
+        {# Products Content Area using .products-grid and .product-card #}
+        <section class="products-content">
+            <div class="products-grid">
+                {% for product in clothes %}
+                    <div class="product-card">
+                        {# Link to product detail page #}
+                        <a href="{% url 'clothe-detail' product.id %}" class="product-image-link">
+                            <img src="{{ product.image_url }}" alt="{{ product.title }}">
+                        </a>
+
+                        <div class="product-info">
+                            <h3>
+                                <a href="{% url 'clothe-detail' product.id %}">
+                                    {{ product.title }}
+                                </a>
+                            </h3>
+
+                            <p class="product-category">{{ product.category.name }}</p>
+
+                            {# Price display with discount handling #}
+                            <p class="price">
+                                {% if product.discount_percentage %}
+                                    <span class="final-price">
+                                        {{ product.final_price|floatformat:0|intcomma|to_persian_digits }} تومان
+                                    </span>
+                                    <span class="old-price">
+                                        {{ product.price|floatformat:0|intcomma|to_persian_digits }}
+                                    </span>
+                                {% else %}
+                                    {{ product.price|floatformat:0|intcomma|to_persian_digits }} تومان
+                                {% endif %}
+                            </p>
+                        </div>
+                        {# Optional: Add to cart button here if desired #}
+                        {# <a href="{% url 'add-to-cart' product.id %}" class="btn btn-primary btn-small">افزودن به سبد</a> #}
+                    </div>
+                {% empty %}
+                    {# Using .empty-state for no products found message #}
+                    <div class="empty-state">
+                        <p>محصولی با فیلترهای انتخابی شما یافت نشد.</p>
+                        <a href="{% url 'clothes-list' %}" class="btn btn-secondary btn-small">حذف فیلترها</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.has_other_pages %}
+                <nav class="pagination" aria-label="Pagination">
+                            {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}" class="btn btn-secondary btn-small pagination-link">قبلی</a>
+                    {% else %}
+                        <span class="btn btn-secondary btn-small pagination-link disabled">قبلی</span>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="btn btn-secondary btn-small pagination-link active">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}{% if query_params %}&{{ query_params }}{% endif %}" class="btn btn-secondary btn-small pagination-link">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}" class="btn btn-secondary btn-small pagination-link">بعدی</a>
+                    {% else %}
+                        <span class="btn btn-secondary btn-small pagination-link disabled">بعدی</span>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

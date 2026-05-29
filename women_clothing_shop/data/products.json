@@ -1,0 +1,219 @@
+{
+  "products": [
+    {
+      "title": "هودی کلاه‌دار مینیمال",
+      "description": "هودی کلاه‌دار ساده با پارچه ضخیم و دوخت تمیز.",
+      "price": 1250000,
+      "discount_percentage": 0,
+      "category": "هودی",
+      "image": "hoodie-black-02.jpg",
+      "gallery_images": ["hoodie-black-02-1.jpg"],
+      "variants": [
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "M", "stock": 7 },
+        { "color": { "name": "سفید", "color_code": "#000000" }, "size": "L", "stock": 5 },
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "XL", "stock": 3 }
+      ]
+    },
+    {
+      "title": "تیشرت یقه گرد ساده",
+      "description": "تیشرت نرم و خوش‌فرم با رنگ زغالی مناسب ست‌های مختلف.",
+      "price": 540000,
+      "discount_percentage": 0,
+      "category": "تیشرت",
+      "image": "tshirt-charcoal-02.jpg",
+      "gallery_images": ["tshirt-charcoal-02-1.jpg"],
+      "variants": [
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "M", "stock": 11 },
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "L", "stock": 8 },
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "XL", "stock": 5 }
+      ]
+    },
+    {
+      "title": "شومیز نخی دکمه‌دار ",
+      "description": "شومیز نخی کلاسیک مناسب استفاده روزمره و اداری.",
+      "price": 690000,
+      "discount_percentage": 0,
+      "category": "شومیز",
+      "image": "shomiz-white-01.jpg",
+      "gallery_images": [],
+      "variants": [
+        { "color": { "name": "سفید", "color_code": "#FFFFFF" }, "size": "S", "stock": 9 },
+        { "color": { "name": "سفید", "color_code": "#FFFFFF" }, "size": "M", "stock": 11 },
+        { "color": { "name": "سفید", "color_code": "#FFFFFF" }, "size": "L", "stock": 8 }
+      ]
+    },
+    {
+      "title": "شومیز راه‌راه آبی سفید",
+      "description": "شومیز راه‌راه سبک با تنخور آزاد مناسب استایل کژوال.",
+      "price": 750000,
+      "discount_percentage": 8,
+      "category": "شومیز",
+      "image": "shomiz-stripe-bluewhite.jpg",
+      "gallery_images": [],
+      "variants": [
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "S", "stock": 6 },
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "M", "stock": 8 },
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "L", "stock": 6 }
+      ]
+    },
+    {
+      "title": "پیراهن گلدار میدی آستین پفی",
+      "description": "پیراهن میدی طرح‌دار با آستین پفی مناسب مهمانی‌های دوستانه.",
+      "price": 1590000,
+      "discount_percentage": 12,
+      "category": "پیراهن",
+      "image": "dress-floral-midi-01.jpg",
+      "gallery_images": ["dress-floral-midi-01-1.jpg", "dress-floral-midi-01-2.jpg"],
+      "variants": [
+        { "color": { "name": "سبز", "color_code": "#43A047" }, "size": "S", "stock": 4 },
+        { "color": { "name": "سبز", "color_code": "#43A047" }, "size": "M", "stock": 5 },
+        { "color": { "name": "سبز", "color_code": "#43A047" }, "size": "L", "stock": 3 }
+      ]
+    },
+    {
+      "title": "پیراهن مجلسی ساده",
+      "description": "پیراهن مجلسی مشکی با طراحی مینیمال و شیک.",
+      "price": 2390000,
+      "discount_percentage": 0,
+      "category": "پیراهن",
+      "image": "dress-black-party-02.jpg",
+      "gallery_images": ["dress-black-party-02-1.jpg"],
+      "variants": [
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "S", "stock": 3 },
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "M", "stock": 4 },
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "L", "stock": 3 }
+      ]
+    },
+    {
+      "title": "دامن پلیسه بلند ",
+      "description": "دامن پلیسه بلند سبک و شیک مناسب استایل روزمره.",
+      "price": 890000,
+      "discount_percentage": 5,
+      "category": "دامن",
+      "image": "skirt-pleated-gray-01.jpg",
+      "gallery_images": ["skirt-pleated-gray-01-1.jpg", "skirt-pleated-gray-01-2.jpg"],
+      "variants": [
+        { "color": { "name": "طوسی", "color_code": "#9E9E9E" }, "size": "S", "stock": 6 },
+        { "color": { "name": "طوسی", "color_code": "#9E9E9E" }, "size": "M", "stock": 7 },
+        { "color": { "name": "طوسی", "color_code": "#9E9E9E" }, "size": "L", "stock": 5 }
+      ]
+    },
+    {
+      "title": "دامن جین کوتاه",
+      "description": "دامن جین کوتاه مناسب استایل تابستانی و کژوال.",
+      "price": 790000,
+      "discount_percentage": 0,
+      "category": "دامن",
+      "image": "skirt-denim-blue-02.jpg",
+      "gallery_images": ["skirt-denim-blue-02-1.jpg"],
+      "variants": [
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "S", "stock": 7 },
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "M", "stock": 8 },
+        { "color": { "name": "آبی", "color_code": "#1E88E5" }, "size": "L", "stock": 6 }
+      ]
+    },
+    {
+      "title": "کت کوتاه فوتر قهوه‌ای",
+      "description": "کت فوتر کوتاه مناسب هوای خنک با استایل کلاسیک.",
+      "price": 2190000,
+      "discount_percentage": 10,
+      "category": "کت",
+      "image": "coat-felt-brown-01.jpg",
+      "gallery_images": ["coat-felt-brown-01-1.jpg", "coat-felt-brown-01-2.jpg"],
+      "variants": [
+        { "color": { "name": "قهوه‌ای", "color_code": "#6D4C41" }, "size": "M", "stock": 4 },
+        { "color": { "name": "قهوه‌ای", "color_code": "#6D4C41" }, "size": "L", "stock": 3 },
+        { "color": { "name": "قهوه‌ای", "color_code": "#6D4C41" }, "size": "XL", "stock": 2 }
+      ]
+    },
+    {
+      "title": "هودی اورسایز اسپرت ",
+      "description": "هودی گرم و راحت مناسب پاییز و زمستان با تنخور آزاد.",
+      "price": 1150000,
+      "discount_percentage": 10,
+      "category": "هودی",
+      "image": "hoodie-oversize.jpg",
+      "gallery_images": ["hoodie-oversize-1.jpg", "hoodie-oversize-2.jpg", "hoodie-oversize-3.jpg"],
+      "variants": [
+        { "color": { "name": "خاکستری", "color_code": "#9E9E9E" }, "size": "M", "stock": 8 },
+        { "color": { "name": "کرم", "color_code": "#C4A566" }, "size": "L", "stock": 6 },
+        { "color": { "name": "آبی روشن", "color_code": "#90CAF9" }, "size": "M", "stock": 4 },
+        { "color": { "name": "آبی روشن", "color_code": "#90CAF9" }, "size": "L", "stock": 4 }
+      ]
+    },
+    {
+      "title": "تیشرت لانگ یقه گرد",
+      "description": "تیشرت لانگ نخی مناسب استفاده روزمره و استایل خیابانی.",
+      "price": 520000,
+      "discount_percentage": 5,
+      "category": "تیشرت",
+      "image": "tshirt-long-01.jpg",
+      "gallery_images": ["tshirt-long-01-1.jpg", "tshirt-long-01-2.jpg", "tshirt-long-01-3.jpg"],
+      "variants": [
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "S", "stock": 10 },
+        { "color": { "name": "سفید", "color_code": "#FFFFFF" }, "size": "M", "stock": 12 },
+        { "color": { "name": "قهوه‌ای", "color_code": "#472E27" }, "size": "M", "stock": 9 }
+      ]
+    },
+    {
+      "title": "شلوار جین مام‌فیت ",
+      "description": "جین مام‌فیت با قد استاندارد.",
+      "price": 1650000,
+      "discount_percentage": 15,
+      "category": "شلوار جین",
+      "image": "jeans-momfit-01.jpg",
+      "gallery_images": ["jeans-momfit-01-1.jpg", "jeans-momfit-01-2.jpg"],
+      "variants": [
+        { "color": { "name": "آبی روشن", "color_code": "#90CAF9" }, "size": "M", "stock": 5 },
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "M", "stock": 7 },
+        { "color": { "name": "آبی تیره", "color_code": "#070138" }, "size": "M", "stock": 6 },
+        { "color": { "name": "آبی تیره", "color_code": "#070138" }, "size": "L", "stock": 6 }
+      ]
+    },
+    {
+      "title": "شلوار پارچه‌ای راسته ",
+      "description": "شلوار پارچه‌ای راسته مناسب استایل رسمی و اداری.",
+      "price": 980000,
+      "discount_percentage": 0,
+      "category": "شلوار پارچه‌ای",
+      "image": "pants-straight-01.jpg",
+      "gallery_images": ["pants-straight-01-1.jpg", "pants-straight-01-2.jpg"],
+      "variants": [
+        { "color": { "name": "مشکی", "color_code": "#000000" }, "size": "L", "stock": 6 },
+        { "color": { "name": "طوسی", "color_code": "#36454F" }, "size": "M", "stock": 8 },
+        { "color": { "name": "سبز یشمی", "color_code": "#274733" }, "size": "L", "stock": 7 }
+      ]
+    },
+    {
+      "title": "مانتو لینن تابستانی ",
+      "description": "مانتو خنک لینن با تنخور راحت مناسب بهار و تابستان.",
+      "price": 1290000,
+      "discount_percentage": 0,
+      "category": "مانتو",
+      "image": "manto-linen-cream-01.jpg",
+      "gallery_images": ["manto-linen-cream-01-1.jpg"],
+      "variants": [
+        { "color": { "name": "کرم", "color_code": "#C4A566" }, "size": "M", "stock": 7 },
+        { "color": { "name": "کرم", "color_code": "#C4A566" }, "size": "L", "stock": 6 },
+        { "color": { "name": "کرم", "color_code": "#C4A566" }, "size": "XL", "stock": 4 }
+      ]
+    },
+    {
+      "title": "مانتو کتی کوتاه ",
+      "description": "مانتو کتی کوتاه مناسب استایل نیمه‌رسمی با فرم شیک.",
+      "price": 1790000,
+      "discount_percentage": 5,
+      "category": "مانتو",
+      "image": "manto-koti.jpg",
+      "gallery_images": ["manto-koti-1.jpg", "manto-koti-2.jpg"],
+      "variants": [
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "S", "stock": 4 },
+        { "color": { "name": "سبز یشمی", "color_code": "#274733" }, "size": "M", "stock": 6 },
+        { "color": { "name": "قهوه‌ای", "color_code": "#472E27" }, "size": "L", "stock": 5 },
+        { "color": { "name": "زغالی", "color_code": "#36454F" }, "size": "M", "stock": 4 },
+        { "color": { "name": "سبز یشمی", "color_code": "#274733" }, "size": "L", "stock": 6 },
+        { "color": { "name": "قهوه‌ای", "color_code": "#472E27" }, "size": "M", "stock": 5 }
+      ]
+    }
+  ]
+}

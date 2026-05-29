@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}سبد خرید{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">سبد خرید</h1>
+
+    {% if cart %}
+        <div class="cart-items">
+            {% for item in cart %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="{{ item.variant.clothe.image_url }}" alt="{{ item.variant.clothe.title }}">
+                    </div>
+
+                    <div class="cart-item-info">
+                        <h3>{{ item.variant.clothe.title }}</h3>
+                        <p>رنگ: {{ item.variant.color.name }}</p>
+                        <p>سایز: {{ item.variant.get_size_display }}</p>
+                        <p>قیمت واحد: {{ item.price|floatformat:0|intcomma|to_persian_digits }} تومان</p>
+                        <p>مجموع: {{ item.total_price|floatformat:0|intcomma|to_persian_digits }} تومان</p>
+                        <p class="stock-info">موجودی: {{ item.variant.stock|to_persian_digits }}</p>
+                    </div>
+
+                    <div class="cart-item-actions">
+                        <form action="{% url 'cart-update' item.variant.id %}" method="post" class="quantity-update-form">
+                            {% csrf_token %}
+                            <div class="form-field">
+                                <label for="quantity-{{ item.variant.id }}" class="sr-only">تعداد:</label>
+                                <input
+                                    type="number"
+                                    id="quantity-{{ item.variant.id }}"
+                                    name="quantity"
+                                    min="1"
+                                    max="{{ item.variant.stock }}"
+                                    value="{{ item.quantity }}"
+                                    class="input-number"
+                                    aria-label="تعداد"
+                                >
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-small">بروزرسانی</button>
+                        </form>
+
+                        <a href="{% url 'cart-remove' item.variant.id %}" class="btn btn-ghost btn-small remove-btn">
+                            حذف
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="cart-summary card">
+            <h3>
+                جمع کل:
+                {{ cart.get_total_price|floatformat:0|intcomma|to_persian_digits }} تومان
+            </h3>
+            {% if user.is_authenticated %}
+                <a href="{% url 'checkout' %}" class="btn btn-primary">ادامه فرایند خرید</a>
+            {% else %}
+                <a href="{% url 'login' %}?next={% url 'checkout' %}" class="btn btn-secondary">برای ادامه خرید وارد شوید</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        {# Empty cart message, using existing .empty-state style #}
+        <div class="empty-state">
+            <p>سبد خرید شما خالی است.</p>
+            <a href="{% url 'clothes-list' %}" class="btn btn-secondary">مشاهده محصولات</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

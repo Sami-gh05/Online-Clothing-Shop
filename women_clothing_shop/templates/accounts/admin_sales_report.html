@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load persian_filters %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-page">
+        {% include 'accounts/account_sidebar.html' %}
+
+        <main class="account-content">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">{{ page_title }}</h1>
+                    <p class="page-subtitle">خلاصه درآمد، تعداد فروش و گزارش روزانه</p>
+                </div>
+            </div>
+
+            <div class="report-cards-container"> {# Wrapper for stat cards #}
+                <div class="card stat-card">
+                    <div class="stat-head">
+                        <h3>مجموع درآمد</h3>
+                        <span class="stat-badge">تومان</span>
+                    </div>
+                    <p class="stat-value">
+                        {{ total_revenue|default_if_none:0|floatformat:0|intcomma|to_persian_digits }}
+                    </p>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-head">
+                        <h3>تعداد فروش</h3>
+                        <span class="stat-badge">سفارش</span>
+                    </div>
+                    <p class="stat-value">
+                        {{ total_sales_count|default_if_none:0|to_persian_digits }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h2>پرفروش‌ترین محصولات</h2>
+                </div>
+
+                {% if top_selling_products %}
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>محصول</th>
+                                    <th class="col-num">تعداد فروش</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in top_selling_products %}
+                                    <tr>
+                                        <td class="col-title">{{ product.title }}</td>
+                                        <td class="col-num">{{ product.total_sold|default_if_none:0|to_persian_digits }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">داده‌ای برای نمایش وجود ندارد.</div>
+                {% endif %}
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h2>فروش روزانه</h2>
+                </div>
+
+                {% if daily_sales %}
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>تاریخ</th>
+                                    <th class="col-num">مبلغ فروش</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in daily_sales %}
+                                    <tr>
+                                        <td class="col-date">{{ item.day }}</td>
+                                        <td class="col-num">
+                                            {{ item.total|default_if_none:0|floatformat:0|intcomma|to_persian_digits }}
+                                            <span class="toman">تومان</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">فروش روزانه‌ای ثبت نشده است.</div>
+                {% endif %}
+            </div>
+
+        </main>
+    </div>
+</div>
+{% endblock %}
