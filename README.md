@@ -1,1 +1,1 @@
-# Online-Clothe-Shop
+# Online-Clothing-Shop
